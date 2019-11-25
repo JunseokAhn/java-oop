@@ -33,7 +33,11 @@ public class Manager {
 		soldList = new ArrayList<>();
 		money = 1000000;
 		code = 0;
-		load();
+		if(load()==false) {
+			System.out.println("로드실패");
+		}else {
+			System.out.println("로드성공");
+		}
 	}
 
 	public boolean save() {
@@ -45,7 +49,7 @@ public class Manager {
 			OOS = new ObjectOutputStream(new FileOutputStream("SaveFile/soldList.dat"));
 			OOS.writeObject(soldList);
 			OOS.close();
-			OOS = new ObjectOutputStream(new FileOutputStream("SaveFile/money"));
+			OOS = new ObjectOutputStream(new FileOutputStream("SaveFile/money.dat"));
 			OOS.writeInt(money);
 			OOS.close();
 		} catch (FileNotFoundException e) {
@@ -65,7 +69,9 @@ public class Manager {
 		try {
 			File a = new File("SaveFile/sellList.dat");
 			File b = new File("SaveFile/soldList.dat");
-			if (a.exists() || b.exists() == false) {
+			File c = new File("SaveFile/money.dat");
+			if ((a.exists() || b.exists() || c.exists()) == false) {
+				System.out.println("로드할 파일이 없습니다.");
 			} else {
 				OIS = new ObjectInputStream(new FileInputStream("SaveFile/sellList.dat"));
 				sellList = (ArrayList<Syouhinn>) OIS.readObject();
@@ -73,7 +79,7 @@ public class Manager {
 				OIS = new ObjectInputStream(new FileInputStream("SaveFile/soldList.dat"));
 				soldList = (ArrayList<Syouhinn>) OIS.readObject();
 				OIS.close();
-				OIS = new ObjectInputStream(new FileInputStream("SaveFile/money"));
+				OIS = new ObjectInputStream(new FileInputStream("SaveFile/money.dat"));
 				money = OIS.readInt();
 				OIS.close();
 			}
@@ -145,7 +151,7 @@ public class Manager {
 		boolean result = false;
 		for (Syouhinn i : sellList) {
 			if (i.getName().equals(name)) {
-				System.out.println(i.getName());
+				System.out.println(i);
 				result = true;
 			}
 		}

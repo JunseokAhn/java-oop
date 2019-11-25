@@ -1,6 +1,6 @@
 package VO;
 
-public class CodeVO{
+public class CodeVO {
 	private int num;
 	private int age;
 	private String depart;
@@ -9,7 +9,8 @@ public class CodeVO{
 	private int pay1;
 	private int pay2;
 	private int pay3;
-	
+	private int seisan;
+
 	public CodeVO(int num, String code, int days, int age) {
 		super();
 		this.num = num;
@@ -29,17 +30,14 @@ public class CodeVO{
 
 		getPay1(age);
 		getPay2(depart, days);
-		pay3=pay1+pay2;
+		pay3 = pay1 + pay2;
 	}
-	
 
-	
-	  @Override public String toString() { return "환자번호: " + num + ", 나이: " + age +
-	  ", 진찰부서: " + depart + ", 진찰비: "+ pay1 + ", 입원비: " + pay2 + ", 진료비: " + pay3;
-	  }
-	 
-
-
+	@Override
+	public String toString() {
+		return "환자번호: " + num + ", 나이: " + age + ", 진찰부서: " + depart + ", 진찰비: " + pay1 + ", 입원비: " + pay2 + ", 진료비: "
+				+ pay3+ ", 정산된 금액 : "+seisan;
+	}
 
 	public void getPay1(int age) {
 		int result;
@@ -85,4 +83,21 @@ public class CodeVO{
 
 		pay2 = (int) result;
 	}
+
+	public int getPay3() {
+		return pay3;
+	}
+
+	public void setPay3(int pay3) {
+		this.pay3 = pay3;
+	}
+
+	public int getSeisan() {
+		return seisan;
+	}
+
+	public void setSeisan(int seisan) {
+		this.seisan = seisan;
+	}
+
 }

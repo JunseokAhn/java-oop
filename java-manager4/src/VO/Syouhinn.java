@@ -15,7 +15,7 @@ public class Syouhinn implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "Syouhinn [code=" + code + ", name=" + name + ", nedan=" + nedan + "]";
+		return "상품코드: " + code + ", 이름: " + name + ", 가격: " + nedan;
 	}
 	public int getCode() {
 		return code;

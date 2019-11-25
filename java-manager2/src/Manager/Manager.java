@@ -12,16 +12,16 @@ public class Manager {
 	private static int index;
 
 	public boolean Check(int num) {
-		for (kanzya i : list)
-			if (i.getNum() == num) {
-				index = num;
+		for (int i=0; i<list.size(); i++)
+			if (list.get(i).getNum() == num) {
+				index = i;
 				return true;
 			}
 		return false;
 	}
 
 	public boolean register(kanzya K) {
-
+		
 		list.add(K);
 
 		return true;
@@ -53,7 +53,7 @@ public class Manager {
 	}
 
 	public void seisan(int kinngaku) { // TODO Auto-generated method stub
-		list.get(index)
+		list.get(index).seisan(kinngaku);
 
 	}
 }

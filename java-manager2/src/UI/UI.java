@@ -1,14 +1,16 @@
 package UI;
 
+import java.util.HashMap;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.Set;
 
 import Manager.Manager;
 import VO.CodeVO;
 import VO.kanzya;
 
 public class UI {
-
+	HashMap<String, String> map = new HashMap<>();
 	Scanner sc = new Scanner(System.in);
 	Scanner st = new Scanner(System.in);
 	Manager M = new Manager();
@@ -20,6 +22,12 @@ public class UI {
 	private boolean condition = true;
 
 	public UI() {
+		map.put("MI", "외과");
+		map.put("NI", "내과");
+		map.put("SI", "피부과");
+		map.put("TI", "소아과");
+		map.put("VI", "산부인과");
+		map.put("WI", "비뇨기과");
 		while (condition) {
 			try {
 				Menu();
@@ -45,17 +53,11 @@ public class UI {
 			register();
 			break;
 		case 2:
-			try {
-				chart();
-			} catch (NullPointerException e) {
-				// TODO Auto-generated catch block
-				System.out.println("진료코드를 제대로 입력해주세요");
-			}finally {
-				break;
-			}
-			
+			chart();
+			break;
+
 		case 3:
-			seisan();//미구현
+			seisan();
 			break;
 
 		case 4:
@@ -74,24 +76,30 @@ public class UI {
 			System.out.println("중복된 번호입니다. 다시 입력해주세요");
 			register();
 		} else {
-			System.out.println("코드종류 : MI / NI/ SI / TI / VI / WI ");
+			Set<String> keySet = map.keySet();
+			for (Object key : keySet)
+				System.out.print(key + " : " + map.get(key)+" ");
+			System.out.println();
 			System.out.print("진료코드를 입력하세요 : ");
 			code = st.nextLine();
-			System.out.print("입원일수를 입력하세요 : ");
-			days = sc.nextInt();
-			System.out.print("나이를 입력하세요 : ");
-			age = sc.nextInt();
-			kanzya K = new kanzya(num, code, days, age);
-			if (M.register(K) == false) {
-				System.out.println("등록 실패");
+			if (map.containsKey(code)) {
+				System.out.print("입원일수를 입력하세요 : ");
+				days = sc.nextInt();
+				System.out.print("나이를 입력하세요 : ");
+				age = sc.nextInt();
+				kanzya K = new kanzya(num, code, days, age);
+				if (M.register(K) == false) {
+					System.out.println("등록 실패");
+				} else {
+					System.out.println("등록 성공");
+				}
 			} else {
-				System.out.println("등록 성공");
+				System.out.println("올바른 코드를 입력해주세요");
 			}
-
 		}
 	}
 
-	public void chart() throws Exception{
+	public void chart(){
 		System.out.println("------------------");
 		System.out.println("1. 환자 조회");
 		System.out.println("2. 진료기록 추가");
@@ -104,32 +112,38 @@ public class UI {
 		case 1:
 			System.out.print("번호를 입력해주세요 : ");
 			num = sc.nextInt();
-			System.out.println("1");
+			
 			if (M.Check(num) == false) {
 				System.out.println("등록되지 않은 환자입니다.");
 				break;
 			}
 			M.search();
-			
+
 			break;
 		case 2:
 			System.out.print("번호를 입력해주세요 : ");
 			num = sc.nextInt();
+
 			if (M.Check(num) == false) {
 				System.out.println("등록되지 않은 환자입니다.");
 				break;
 			}
 			System.out.print("진료코드를 입력하세요 : ");
 			code = st.nextLine();
-			System.out.print("입원일수를 입력하세요 : ");
-			days = sc.nextInt();
-			M.insert(days, code);
+			if (map.containsKey(code)) {
+				code = st.nextLine();
+				System.out.print("입원일수를 입력하세요 : ");
+				days = sc.nextInt();
+				M.insert(days, code);
+			} else {
+				System.out.println("올바른 코드를 입력해주세요");
+			}
 			break;
 
 		case 3:
-		
+
 			M.searchAll();
-			
+
 			break;
 
 		case 4:
@@ -156,8 +170,8 @@ public class UI {
 		}
 		System.out.println("정산하실 금액을 입력하세요");
 		int kinngaku = sc.nextInt();
-	
+
 		M.seisan(kinngaku);
-		//미구현
+	
 	}
 }

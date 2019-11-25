@@ -45,6 +45,19 @@ public class kanzya {
 			result += i;
 		return result;
 	}
-	
-	
+
+	public void seisan(int kinngaku) {
+		for (CodeVO i : list2) {
+			if (i.getPay3() >= kinngaku) {
+				i.setPay3(i.getPay3()-kinngaku);
+				i.setSeisan(kinngaku);
+				break;
+			} else {
+				kinngaku-=i.getPay3();
+				i.setSeisan(i.getPay3());
+				i.setPay3(0);
+				
+			}
+		}
+	}
 }
