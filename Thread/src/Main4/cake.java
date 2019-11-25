@@ -1,34 +1,46 @@
-package Main4;
+package cake;
 
-public class cake {
+public class Cake {
 
-	private int cakeNum;
-	private boolean empty;
+	private int cakeNum=0;
+	private boolean flag;
 	
-	
-	public cake() {
-		cakeNum=0;	
-		empty=true;
-	}
-	
-	
-	public void produce(int cakeNum) {
-		while(!empty) {
-			
+
+	public synchronized void produceCake() {
+
+		while (flag == true) {
+
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
-		this.cakeNum = cakeNum;
+		flag = true;
+
+		System.out.println(++cakeNum + "번 케이크 생성");
+		notifyAll();
+
 	}
-	
-	public int counsume() {
-		while(empty) {
-			
+
+	public synchronized void consumeCake() {
+
+		while (flag == false) {
+
+			try {
+				wait();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		empty = true;
+		flag = false;
+		notifyAll();
 		
-		return cakeNum;
+		System.out.println(cakeNum + "번 케이크 소비");
 	}
-	
+
 	public int getCakeNum() {
 		return cakeNum;
 	}
@@ -37,13 +49,12 @@ public class cake {
 		this.cakeNum = cakeNum;
 	}
 
-	public boolean isEmpty() {
-		return empty;
+	public boolean isFlag() {
+		return flag;
 	}
 
-	public void setEmpty(boolean empty) {
-		this.empty = empty;
+	public void setFlag(boolean flag) {
+		this.flag = flag;
 	}
 
-	
 }
